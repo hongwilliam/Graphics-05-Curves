@@ -5,6 +5,7 @@
 #include "display.h"
 #include "draw.h"
 #include "matrix.h"
+#include <math.h>
 
 /*======== void add_circle() ==========
   Inputs:   struct matrix * points
@@ -18,8 +19,9 @@
 void add_circle( struct matrix * points,
                  double cx, double cy, double cz,
                  double r, double step ) {
-  double x1, x2, y1, y2;
-  x2 = cx + r, theta;
+
+  double x1, x2, y1, y2, theta;
+  x2 = cx + r;
   y2 = cy;
 
   double t = 0;
