@@ -25,7 +25,7 @@ void add_circle( struct matrix * points,
   y2 = cy;
 
   double t = 0;
-  while (t < 1.0001){
+  while (t < 1.001){
     theta = 2 * M_PI * t;
     x1 = x2;
     y1 = y2;
@@ -64,15 +64,20 @@ void add_curve( struct matrix *points,
                 double step, int type ) {
   struct matrix *xCo = generate_curve_coefs(x0, x1, x2, x3, type);
   struct matrix *yCo = generate_curve_coefs(y0, y1, y2, y3, type);
-  double t = 0;
-  while (t < 1.0001){
-    x0 = x1;
-    y0 = y1;
+
+  double t = 0, curve_x0 = x0, curve_y0 = y0;
+  double curve_x1, curve_y1;
+  while (t < 1.001){
     t += step;
-    x1 = (xCo->m[0][0] * pow(t, 3)) + (xCo->m[1][0] * pow(t, 2)) + (xCo->m[2][0] * t) + (xCo->m[3][0]);
-    y1 = (yCo->m[0][0] * pow(t, 3)) + (yCo->m[1][0] * pow(t, 2)) + (yCo->m[2][0] * t) + (yCo->m[3][0]);
-    add_edge(points, x0, y0, 0, x0, y0, 0);
+    curve_x1 = (xCo->m[0][0] * pow(t, 3)) + (xCo->m[1][0] * pow(t, 2)) + (xCo->m[2][0] * t) + (xCo->m[3][0]);
+    curve_y1 = (yCo->m[0][0] * pow(t, 3)) + (yCo->m[1][0] * pow(t, 2)) + (yCo->m[2][0] * t) + (yCo->m[3][0]);
+    add_edge(points, curve_x0, curve_y0, 0, curve_x1, curve_y1, 0);
+    curve_x0 = curve_x1;
+    curve_y0 = curve_y1;
   }
+
+  free_matrix(xCo);
+  free_matrix(yCo);
 }
 
 

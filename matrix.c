@@ -97,6 +97,7 @@ struct matrix * generate_curve_coefs( double p1, double p2,
     if (type == BEZIER){
       translation = make_bezier(); }
     matrix_mult(translation, coefs);
+    free_matrix(translation);
     return coefs;
 }
 
